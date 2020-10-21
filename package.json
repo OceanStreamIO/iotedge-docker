@@ -1,6 +1,6 @@
 {
-  "name": "iotedge",
-  "version": "0.0.1",
+  "name": "iotedge-runtime",
+  "version": "0.1.3",
   "description": "an NPM wrapper around the Azure IoT Edge dev tool",
   "main": "index.js",
   "files": [
@@ -13,11 +13,10 @@
   ],
   "bin": {
     "start-iotedge": "./bin/run-container.sh",
-    "build-iotedge": "docker build . -t iotedge-runtime",
+    "build-iotedge": "./bin/build-container.sh",
     "iotedge": "./bin/iotedge.sh"
   },
   "scripts": {
-    "build": "docker build . -t iotedge-runtime",
     "preinstall": "docker --version",
     "start": "./bin/run-container.sh"
   },

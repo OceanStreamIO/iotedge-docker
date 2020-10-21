@@ -1,7 +1,7 @@
-# iotedge
+# iotedge-runtime
 ### Run the [Azure IoT Edge](https://azure.microsoft.com/en-us/services/iot-edge/) runtime in a Docker container
 
-This project is based on the [Azure IoT Edge dev tool](https://github.com/Azure/iotedgedev), but is only contains the Docker image needed to run the Azure IoT Edge runtime in a container.
+This project is based on the [Azure IoT Edge dev tool](https://github.com/Azure/iotedgedev), but it only contains the Docker image needed to run the Azure IoT Edge runtime in a container.
 
 It is supposed to be used mostly in local development environments and it's wrapped in an NPM package.
 
@@ -14,7 +14,7 @@ $ npm install iotedge
 
 Otherwise, clone the project from Github:
 ```sh
-$ git clone iotedge
+$ git clone git@github.com:pineviewlabs/iotedge-docker.git
 ```
 
 ## Usage
@@ -42,7 +42,7 @@ Go to the [Azure Portal](https://portal.azure.com/), then go to your IoT Hub and
 Select an existing device that you would like to use or create a new one. Once on the device page, copy one of the two connection strings (either the _Primary Connection String_ or the _Secondary Connection String_).
 You will need to set the connection string you have just grabbed as an environment variable, named `IOT_DEVICE_CONNSTR`.
 
-Example:
+**Example**:
 ```sh
 $ export IOT_DEVICE_CONNSTR='HostName=iothub0730.azure-devices.net;DeviceId=myEdgeDevice;SharedAccessKey=zfD73oX3agHTlT0rOvjPnYTkxRPw/k3U0exEGBDWQ5A='
 ```                                                                                           

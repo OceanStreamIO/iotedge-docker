@@ -1,0 +1,39 @@
+# Use the official Ubuntu 22.04 image from the Docker Hub
+FROM ubuntu:22.04
+
+# Set environment variables to prevent interactive prompts during package installations
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    iproute2 \
+    iputils-ping \
+    systemd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Add Microsoft package repository for Ubuntu 22.04 (Jammy Jellyfish)
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg && \
+    echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" > /etc/apt/sources.list.d/microsoft-prod.list
+
+# Install Moby CLI and Moby Engine from the default Ubuntu repositories
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    moby-cli \
+    moby-engine \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install IoT Edge from the Microsoft repository
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    aziot-edge \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and prepare the script
+COPY ./lib/rund-new.sh rund.sh
+RUN sed -i 's/\r//' ./rund.sh && \
+    chmod u+x rund.sh
+
+# Set the entrypoint
+ENTRYPOINT [ "./rund.sh" ]

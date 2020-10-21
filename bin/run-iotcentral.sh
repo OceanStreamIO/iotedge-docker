@@ -1,5 +1,10 @@
 #!/bin/bash
 
+PROVISIONING_SOURCE="dps"
+PROVISIONING_REGISTRATION_ID=""
+PROVISIONING_IDSCOPE=""
+PROVISIONING_SYMMETRIC_KEY=""
+
 docker_network=$(docker network list | awk '/azure-iot-edge/ { print $2 }' | grep '^azure-iot-edge$')
 
 if [ ! -z "$docker_network" ]; then
@@ -7,13 +12,6 @@ if [ ! -z "$docker_network" ]; then
 else
   echo 'azure-iot-edge docker network not found, creating...'
   docker network create --attachable azure-iot-edge
-fi
-
-if [ -z ${IOT_DEVICE_CONNSTR} ]; then
-    echo "Cannot run IoT Edge container: IOT_DEVICE_CONNSTR is not set"
-    echo "Eg:"
-    echo "export IOT_DEVICE_CONNSTR='HostName=iothub0730.azure-devices.net;DeviceId=myEdgeDevice;SharedAccessKey=zfD73oX3agHTlT0rOvjPnYTkxRPw/k3U0exEGBDWQ5A='"
-    exit
 fi
 
 docker run \
@@ -25,7 +23,9 @@ docker run \
     -p 15581:15581 \
     --network bridge \
     --name iotedgec \
-    -e HOST_HOSTNAME="iotedge-runtime" \
-    -e IOT_DEVICE_CONNSTR="$IOT_DEVICE_CONNSTR" \
-    -e PROVISIONING_SOURCE="manual" \
+    -e PROVISIONING_SOURCE="$PROVISIONING_SOURCE" \
+    -e PROVISIONING_REGISTRATION_ID="$PROVISIONING_REGISTRATION_ID" \
+    -e PROVISIONING_IDSCOPE="$PROVISIONING_IDSCOPE" \
+    -e PROVISIONING_SYMMETRIC_KEY="$PROVISIONING_SYMMETRIC_KEY" \
     iotedge-runtime
+
