@@ -27,4 +27,5 @@ docker run \
     --name iotedgec \
     -e HOST_HOSTNAME="iotedge-runtime" \
     -e IOT_DEVICE_CONNSTR="$IOT_DEVICE_CONNSTR" \
+    -e PROVISIONING_SOURCE="manual" \
     iotedge-runtime
